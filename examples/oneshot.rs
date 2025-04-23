@@ -15,7 +15,7 @@ async fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use axum::http::Request;
+    use axum::http::{CONTENT_TYPE, method::POST, Request};
     use axum::body::Body as AxumBody;
     use anyhow::Result;
     use tower::ServiceExt;
@@ -36,9 +36,9 @@ mod tests {
         let content_type = form.content_type();
         let body = MultipartBody::from(form);
         let req = Request::builder()
-            .method("POST")
+            .method(POST)
             .uri("/upload")
-            .header("Content-Type", content_type)
+            .header(CONTENT_TYPE, content_type)
             .body(AxumBody::from_stream(body))?;
 
         // Send request
